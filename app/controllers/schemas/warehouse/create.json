@@ -1,0 +1,19 @@
+{
+  "type": "object",
+  "required": [
+    "key",
+    "value",
+    "whAttribGroup"
+  ],
+  "properties": {
+    "key": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "whAttribGroup": {
+      "type": "integer"
+    }
+  }
+}
