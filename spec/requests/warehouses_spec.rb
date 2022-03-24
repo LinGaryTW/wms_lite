@@ -57,11 +57,34 @@ RSpec.describe WarehousesController, type: [:controller, :request] do
   describe 'PUT' do
     it 'update existed record' do
       existed_record = create(:wh_attrib, id: 10)
-      param = { attribs: [{ key: 'update key', value: 'update value', index: 5 }],
-                whAttribGroup: 1 }
-      put '/warehouses/10'
-      debugger
-      # expect(existed_record.attribs).
+      param = { key: 'update key', value: 'update value', index: 5, whAttribGroup: 1 }
+      put '/warehouses/10', params: param, as: :json
+      existed_record.reload
+      expect(existed_record.s_key).to eq('update key')
+      expect(existed_record.s_value).to eq('update value')
+      expect(existed_record.i_index).to eq(5)
+    end
+
+    it 'no record found' do
+      param = { key: 'update key', value: 'update value', index: 5, whAttribGroup: 1 }
+      put '/warehouses/10', params: param, as: :json
+      expect(response).to have_http_status(:bad_request)
+      expect(json_result['error']).to eq('No record found')
+    end 
+  end
+
+  describe 'DELETE' do
+    it 'delete existed record' do
+      create(:wh_attrib)
+      delete '/warehouses/1'
+      expect(WhAttrib.count).to be(0)
+    end
+
+    it 'delete but no record found' do
+      create(:wh_attrib, id: 100)
+      delete '/warehouses/1'
+      expect(response).to have_http_status(:bad_request)
+      expect(json_result['error']).to eq('No record found')
     end
   end
 

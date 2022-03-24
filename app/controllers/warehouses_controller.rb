@@ -1,5 +1,5 @@
 class WarehousesController < ApplicationController
-  before_action :find_wh_attrib, only: [:update, :destroy]
+  before_action :find_wh_attrib, only: [:update, :destory]
 
   def show
     last_attrib = {}
