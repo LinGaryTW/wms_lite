@@ -5,7 +5,7 @@ class ApplicationController < ActionController::API
     schema = Rails.application.config.json_shcema[params[:controller]]["#{params[:action]}.json"]
     valid = JSON::Validator.fully_validate(schema, params.to_json)
     unless valid.blank?
-      render json: { result: '', data: '', error: valid }
+      render json: { result: '', data: '', error: valid }, status: :bad_request
     end
   end
 end

@@ -165,6 +165,7 @@ GEM
     rspec-expectations (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.11.0)
+    rspec-json_expectations (2.2.0)
     rspec-mocks (3.11.0)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.11.0)
@@ -199,6 +200,7 @@ DEPENDENCIES
   json-schema (~> 2.7)
   puma (~> 5.0)
   rails (~> 7.0.2, >= 7.0.2.3)
+  rspec-json_expectations (~> 2.1)
   rspec-rails
   sqlite3 (~> 1.4)
   tzinfo-data

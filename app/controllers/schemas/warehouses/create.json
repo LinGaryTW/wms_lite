@@ -1,19 +1,37 @@
 {
   "type": "object",
   "required": [
-    "key",
-    "value",
+    "attribs",
     "whAttribGroup"
   ],
   "properties": {
-    "key": {
-      "type": "string"
-    },
-    "value": {
-      "type": "string"
-    },
-    "whAttribGroup": {
-      "type": "integer"
+    "attribs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "key",
+          "value",
+          "index"
+        ],
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "index": {
+            "type": "integer"
+          }
+        }
+      },
+      "whAttribGroup": {
+        "type": [
+          "integer",
+          "null"
+        ]
+      }
     }
   }
 }

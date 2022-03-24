@@ -3,5 +3,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
-  resources :warehouses, param: :key_word
+  get '/warehouses/:key_word' => 'warehouses#show'
+  post '/warehouses' => 'warehouses#create'
+  put '/warehouses/:id' => 'warehouses#update'
+  delete '/warehouses/:id' => 'warehouses#destory'
 end

@@ -1,6 +1,7 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 require 'factory_bot'
+require "rspec/json_expectations"
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods
 end

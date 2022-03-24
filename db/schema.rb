@@ -10,13 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_03_19_095312) do
+ActiveRecord::Schema[7.0].define(version: 2022_03_23_114445) do
   create_table "wh_attribs", force: :cascade do |t|
     t.text "s_key"
     t.text "s_value"
     t.integer "i_wh_attrib_group"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "i_index"
   end
 
 end
