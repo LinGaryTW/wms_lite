@@ -10,10 +10,12 @@ RSpec.describe WarehousesController, type: [:controller, :request] do
       expected_data =
       [
         { 
-          'attribGroup' => 1,
+          'whAttribGroup' => 1,
           'attribs' => [
-            { 'key' => 'title', 'value' => 'book', 'id' => attrib1.id },
-            { 'key' => 'count', 'value' => '10', 'id' => attrib2.id }
+            { 'key' => 'title', 'value' => 'book', 'id' => attrib1.id,
+              'whAttribGroup' => attrib1.i_wh_attrib_group, 'index' => attrib1.i_index },
+            { 'key' => 'count', 'value' => '10', 'id' => attrib2.id,
+              'whAttribGroup' => attrib2.i_wh_attrib_group, 'index' => attrib2.i_index }
           ]
         }
       ]
@@ -75,8 +77,8 @@ RSpec.describe WarehousesController, type: [:controller, :request] do
 
   describe 'DELETE' do
     it 'delete existed record' do
-      create(:wh_attrib)
-      delete '/warehouses/1'
+      target = create(:wh_attrib)
+      delete "/warehouses/#{target.id}"
       expect(WhAttrib.count).to be(0)
     end
 

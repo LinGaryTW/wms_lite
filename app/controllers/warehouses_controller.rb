@@ -6,13 +6,17 @@ class WarehousesController < ApplicationController
     result = []
     WhAttrib.fuzzy_searching(params[:key_word]).order(:i_wh_attrib_group, :i_index)
             .each_with_index do |attrib, index|
-      if last_attrib['attribGroup'] == attrib[:i_wh_attrib_group]
-        last_attrib['attribs'] << { 'key' => attrib.s_key, 'value' => attrib.s_value, 'id' => attrib.id }
+      mapped_record = {
+        'key' => attrib.s_key, 'value' => attrib.s_value, 'id' => attrib.id,
+        'index' => attrib.i_index, 'whAttribGroup' => attrib.i_wh_attrib_group
+      }
+      if last_attrib['whAttribGroup'] == attrib[:i_wh_attrib_group]
+        last_attrib['attribs'] << mapped_record
       else
         result << last_attrib unless index.zero?
         last_attrib = {}
-        last_attrib['attribGroup'] = attrib.i_wh_attrib_group
-        last_attrib['attribs'] = [{ 'key' => attrib.s_key, 'value' => attrib.s_value, 'id' => attrib.id }]
+        last_attrib['whAttribGroup'] = attrib.i_wh_attrib_group
+        last_attrib['attribs'] = [mapped_record]
       end
     end
     result << last_attrib if last_attrib.present?
@@ -24,9 +28,18 @@ class WarehousesController < ApplicationController
        { s_key: a[:key], s_value: a[:value], i_index: a[:index],
          i_wh_attrib_group: params[:whAttribGroup] || (WhAttrib.last&.i_wh_attrib_group || 0) + 1 }
     end
-    WhAttrib.insert_all(attribs)
+    ids = 
+    WhAttrib.insert_all(attribs, returning: %w[id s_key s_value i_index i_wh_attrib_group])
+            .rows.each_with_object({ 'attribs' => [] }) do |attrib, result|
+              mapped_record = {
+                'key' => attrib[1], 'value' => attrib[2], 'id' => attrib[0],
+                'index' => attrib[3], 'whAttribGroup' => attrib[4]
+              }
+              result['whAttribGroup'] = attrib[4] if result['whAttribGroup'].nil?
+              result['attribs'] << mapped_record
+            end
 
-    render json: { result: true, data: '', error: '' }
+    render json: { result: true, data: ids, error: '' }
   end
 
   def update

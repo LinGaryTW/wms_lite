@@ -3,9 +3,7 @@
   "required": [
     "id",
     "key",
-    "value",
-    "whAttribGroup",
-    "index"
+    "value"
   ],
   "properties": {
     "id": {
