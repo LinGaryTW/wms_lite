@@ -45,6 +45,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem 'rspec-json_expectations', '~> 2.1'
   gem "faker"
+  gem 'boxing'
 end
 
 group :development do

@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+    volumes:
+      - db-data:/var/lib/postgresql/data
+  web:
+    image: gary_wms_lite:v1 # prepare at local or remote
+    ports:
+      - '3000:3000'
+    environment:
+      - DATABASE_URL=postgres://$POSTGRES_USER:$POSTGRES_PASSWORD@db:5432/$POSTGRES_DB
+      - RAILS_SERVE_STATIC_FILES=true
+      - SECRET_KEY_BASE=123456789
+      - RAILS_LOG_TO_STDOUT=true
+    depends_on:
+      - db
+    volumes:
+      - app:/srv/app
+
+volumes:
+  db-data:
+  app:
