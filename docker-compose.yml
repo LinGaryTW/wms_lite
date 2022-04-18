@@ -22,6 +22,12 @@ services:
       - db
     volumes:
       - app:/srv/app
+  fn:
+    image: gary_wms_lite_fn:v1
+    ports:
+      - '80:80'
+    depends_on:
+      - web
 
 volumes:
   db-data:
