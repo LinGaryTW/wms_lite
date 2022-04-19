@@ -10,7 +10,7 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
   web:
-    image: gary_wms_lite:v1 # prepare at local or remote
+    image: gary200552/gary-wms-lite-be # prepare at local or remote
     ports:
       - '3000:3000'
     environment:
@@ -23,7 +23,7 @@ services:
     volumes:
       - app:/srv/app
   fn:
-    image: gary_wms_lite_fn:v1
+    image: gary-wms-lite-fn
     ports:
       - '80:80'
     depends_on:
