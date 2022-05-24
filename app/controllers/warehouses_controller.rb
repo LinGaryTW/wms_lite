@@ -6,17 +6,14 @@ class WarehousesController < ApplicationController
     result = []
     WhAttrib.fuzzy_searching(params[:key_word]).order(:i_wh_attrib_group, :i_index)
             .each_with_index do |attrib, index|
-      mapped_record = {
-        'key' => attrib.s_key, 'value' => attrib.s_value, 'id' => attrib.id,
-        'index' => attrib.i_index, 'whAttribGroup' => attrib.i_wh_attrib_group
-      }
+      api_key_mapped_record = map_attrib_front_end_key(attrib)
       if last_attrib['whAttribGroup'] == attrib[:i_wh_attrib_group]
-        last_attrib['attribs'] << mapped_record
+        last_attrib['attribs'] << api_key_mapped_record
       else
         result << last_attrib unless index.zero?
         last_attrib = {}
         last_attrib['whAttribGroup'] = attrib.i_wh_attrib_group
-        last_attrib['attribs'] = [mapped_record]
+        last_attrib['attribs'] = [api_key_mapped_record]
       end
     end
     result << last_attrib if last_attrib.present?
@@ -63,5 +60,12 @@ class WarehousesController < ApplicationController
     rescue
       render json: { result: false, data: '', error: 'No record found' }, status: :bad_request 
     end
+  end
+
+  def map_attrib_front_end_key(attrib)
+    {
+      'key' => attrib.s_key, 'value' => attrib.s_value, 'id' => attrib.id,
+      'index' => attrib.i_index, 'whAttribGroup' => attrib.i_wh_attrib_group
+    }
   end
 end
